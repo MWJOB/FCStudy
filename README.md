@@ -11,3 +11,5 @@
    - 어노테이션을 사용하여 기본적인 validation 기능 실습
 5. exception 실습
    - @RestControllerAdvice 또는 ControllerAdvice 를 통한 예외 처리 실습
+6. @RestControllerAdvice 실습
+   - advice를 통한 일괄적인 exception, validation 처리 실습
