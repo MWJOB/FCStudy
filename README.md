@@ -13,3 +13,5 @@
    - @RestControllerAdvice 또는 ControllerAdvice 를 통한 예외 처리 실습
 6. @RestControllerAdvice 실습
    - advice를 통한 일괄적인 exception, validation 처리 실습
+7. Filter 처리 실습
+8. intercept 실습
