@@ -3,7 +3,6 @@ package com.example.exception.advice;
 import com.example.exception.controller.ApiController;
 import com.example.exception.dto.Error;
 import com.example.exception.dto.ErrorResponse;
-import com.sun.net.httpserver.HttpServer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
@@ -17,11 +16,9 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -34,7 +31,7 @@ public class ApiControllerAdvice {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
     }
 
-    //값이 올바르지 않을 때 발생하는 오류
+    //값이 올바르지 않을 때 발생하는 오류 => MethodArgumentNotValidException
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest httpServletRequest){
 
@@ -68,7 +65,7 @@ public class ApiControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    //값이 비었을
+    //값이 비었을 때
     @ExceptionHandler(value = ConstraintViolationException.class)
     public ResponseEntity constraintViolationException(ConstraintViolationException e, HttpServletRequest httpServletRequest){
 
@@ -112,7 +109,7 @@ public class ApiControllerAdvice {
 
         Error errorMessage = new Error();
         errorMessage.setField(fieldName);
-        errorMessage.setMessage(e.getMessage());
+        errorMessage.setMessage(    e.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setErrorList(errorList);
