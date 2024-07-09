@@ -15,3 +15,6 @@
    - advice를 통한 일괄적인 exception, validation 처리 실습
 7. Filter 처리 실습
 8. interceptor 실습
+9. interceptor 활용
+   - 권한 등을 인터셉트가 확인하고 어노테이션과 핸들러를 통해 처리, 필터는 웹 애플리케이션에서 관리되기 때문에 핸들러와 같은 오브젝트가 없다.
+   - intercetor는 spring context에서 관리된다.
