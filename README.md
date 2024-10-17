@@ -18,3 +18,5 @@
 9. interceptor 활용
    - 권한 등을 인터셉트가 확인하고 어노테이션과 핸들러를 통해 처리, 필터는 웹 애플리케이션에서 관리되기 때문에 핸들러와 같은 오브젝트가 없다.
    - intercetor는 spring context에서 관리된다.
+10. exchange generic을 사용한 RestTemplete 실습
+   - generic을 사용하여 RestTemplete을 작성하는 것이 재사용성이 더 높다.
