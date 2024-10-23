@@ -20,3 +20,6 @@
    - intercetor는 spring context에서 관리된다.
 10. exchange generic<T>을 사용한 RestTemplete 실습
    - 공통 Response객체에 "data"필드의 객체를 원하는 객체로 설정을 하는 경우 generic을 사용한다.
+11. JUnit 실습
+12. Swagger 실습
+   - 스프링부트 3.0 부터는 Springfox를 지원하지 않고 springdoc을 사용하면 좋다.
