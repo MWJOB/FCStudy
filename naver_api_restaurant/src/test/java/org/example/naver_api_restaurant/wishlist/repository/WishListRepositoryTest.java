@@ -55,7 +55,7 @@ public class WishListRepositoryTest {
 
         var expected = wishListRepository.findById(1);
 
-        Assertions.assertEquals(true, expected.isPresent());
+        Assertions.assertTrue(expected.isPresent());
         Assertions.assertEquals(1, expected.get().getIndex());
     }
 
