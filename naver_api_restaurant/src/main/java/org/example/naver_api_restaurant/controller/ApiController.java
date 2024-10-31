@@ -33,7 +33,7 @@ public class ApiController {
         return wishListService.findAll();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{index}")
     public void delete(@PathVariable int index){
         wishListService.delete(index);
     }
