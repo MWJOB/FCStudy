@@ -33,4 +33,14 @@ public class ApiController {
         return wishListService.findAll();
     }
 
+    @DeleteMapping
+    public void delete(@PathVariable int index){
+        wishListService.delete(index);
+    }
+
+    //방문한 곳
+    @PostMapping("/{index}")
+    public void addVisit(@PathVariable int index){
+        wishListService.addVisit(index);
+    }
 }
