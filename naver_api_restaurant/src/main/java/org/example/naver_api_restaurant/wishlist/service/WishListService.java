@@ -5,13 +5,19 @@ import org.example.naver_api_restaurant.naver.NaverClient;
 import org.example.naver_api_restaurant.naver.dto.SearchImageReq;
 import org.example.naver_api_restaurant.naver.dto.SearchLocalReq;
 import org.example.naver_api_restaurant.wishlist.dto.WishListDto;
+import org.example.naver_api_restaurant.wishlist.entity.WishListEntity;
+import org.example.naver_api_restaurant.wishlist.repository.WishListRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class WishListService {
 
     private final NaverClient naverClient;
+    private final WishListRepository wishListRepository;
 
     public WishListDto search(String query){
 
@@ -51,4 +57,47 @@ public class WishListService {
         return new WishListDto();
 
     }
+    public WishListDto add(WishListDto wishListDto) {
+        var entity = dtoToEntity(wishListDto);
+        var saveEntity = wishListRepository.save(entity);
+        return entityToDto(saveEntity);
+    }
+
+    private WishListEntity dtoToEntity(WishListDto wishListDto) {
+        var entity = new WishListEntity();
+        entity.setIndex(wishListDto.getIndex());
+        entity.setTitle(wishListDto.getTitle());
+        entity.setCategory(wishListDto.getCategory());
+        entity.setAddress(wishListDto.getAddress());
+        entity.setRoadAddress(wishListDto.getRoadAddress());
+        entity.setHomePageLink(wishListDto.getHomePageLink());
+        entity.setVisit(wishListDto.isVisit());
+        entity.setVisitCount(wishListDto.getVisitCount());
+        entity.setImageLink(wishListDto.getImageLink());
+        entity.setVisitCount(wishListDto.getVisitCount());
+        return entity;
+    }
+
+    private WishListDto entityToDto(WishListEntity wishListEntity){
+        var dto = new WishListDto();
+        dto.setIndex(wishListEntity.getIndex());
+        dto.setTitle(wishListEntity.getTitle());
+        dto.setCategory(wishListEntity.getCategory());
+        dto.setAddress(wishListEntity.getAddress());
+        dto.setRoadAddress(wishListEntity.getRoadAddress());
+        dto.setHomePageLink(wishListEntity.getHomePageLink());
+        dto.setVisit(wishListEntity.isVisit());
+        dto.setVisitCount(wishListEntity.getVisitCount());
+        dto.setImageLink(wishListEntity.getImageLink());
+        dto.setVisitCount(wishListEntity.getVisitCount());
+        return dto;
+    }
+
+    public List<WishListDto> findAll() {
+
+        return wishListRepository.listAll()
+                .stream()
+                .map(this::entityToDto).collect(Collectors.toList());
+    }
 }
+
