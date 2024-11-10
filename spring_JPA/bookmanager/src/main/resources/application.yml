@@ -1,0 +1,13 @@
+# application.yml
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update  # 테이블 자동 생성 (create, update, validate, none)
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+
