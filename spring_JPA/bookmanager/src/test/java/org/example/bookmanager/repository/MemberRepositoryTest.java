@@ -113,17 +113,20 @@ class MemberRepositoryTest {
         System.out.println(memberRepository.findByName("martin"));
 
 
-        //모두 select 구문
-        System.out.println("findByEmail : " + memberRepository.findByEmail("martin@naver.com"));
-        System.out.println("findByEmail : " + memberRepository.getByEmail("martin@naver.com"));
-        System.out.println("findByEmail : " + memberRepository.readByEmail("martin@naver.com"));
-        System.out.println("findByEmail : " + memberRepository.queryByEmail("martin@naver.com"));
-        System.out.println("findByEmail : " + memberRepository.searchByEmail("martin@naver.com"));
-        System.out.println("findByEmail : " + memberRepository.streamByEmail("martin@naver.com"));
-        System.out.println("findByEmail : " + memberRepository.findMemberByEmail("martin@naver.com"));
-
-        System.out.println("findTop1ByName : " + memberRepository.findTopByName("martin"));
-        System.out.println("findFirst1ByName : " + memberRepository.findFirstByName("martin"));
+//        System.out.println("findByEmail : " + memberRepository.findByEmail("martin@naver.com"));
+//        System.out.println("findByEmail : " + memberRepository.getByEmail("martin@naver.com"));
+//        System.out.println("findByEmail : " + memberRepository.readByEmail("martin@naver.com"));
+//        System.out.println("findByEmail : " + memberRepository.queryByEmail("martin@naver.com"));
+//        System.out.println("findByEmail : " + memberRepository.searchByEmail("martin@naver.com"));
+//        System.out.println("findByEmail : " + memberRepository.streamByEmail("martin@naver.com"));
+//        System.out.println("findByEmail : " + memberRepository.findMemberByEmail("martin@naver.com"));
+//
+//        System.out.println("findTop1ByName : " + memberRepository.findTopByName("martin"));
+//        System.out.println("findFirst1ByName : " + memberRepository.findFirstByName("martin"));
+//        System.out.println("findByEmailAndName :" + memberRepository.findByEmailAndName("martin", "martin"));
+        System.out.println("findByIdAfter :" + memberRepository.findByIdAfter(4L));
+        System.out.println("findByCreatedAtGreaterThan : " + memberRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)));
+        System.out.println("findByCreatedAtGreaterTanEqual " + memberRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
 
     }
 }
