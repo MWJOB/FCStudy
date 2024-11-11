@@ -124,9 +124,16 @@ class MemberRepositoryTest {
 //        System.out.println("findTop1ByName : " + memberRepository.findTopByName("martin"));
 //        System.out.println("findFirst1ByName : " + memberRepository.findFirstByName("martin"));
 //        System.out.println("findByEmailAndName :" + memberRepository.findByEmailAndName("martin", "martin"));
-        System.out.println("findByIdAfter :" + memberRepository.findByIdAfter(4L));
-        System.out.println("findByCreatedAtGreaterThan : " + memberRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)));
-        System.out.println("findByCreatedAtGreaterTanEqual " + memberRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
+//        System.out.println("findByIdAfter :" + memberRepository.findByIdAfter(4L));
+//        System.out.println("findByCreatedAtGreaterThan : " + memberRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)));
+//        System.out.println("findByCreatedAtGreaterTanEqual " + memberRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
+//        System.out.println("findByIdIsNotNull : "+ memberRepository.findByIdIsNotNull());
+//        System.out.println("findByIdIsNotEmpty : "+ memberRepository.findByIdIsNotEmpty());
+//        System.out.println("findByNameIn : " + memberRepository.findByNameIn(Lists.newArrayList("martin", "denis")));
+//        System.out.println("findByNameStartingWith :" + memberRepository.findByNameStartingWith("mart"));
+//        System.out.println("findByNameContaining :" + memberRepository.findByNameContaining("mart"));
+//        System.out.println("findByNameEndingWith" + memberRepository.findByNameEndingWith("mart"));
 
+        System.out.println("findByNameLike : "+ memberRepository.findByNameLike("%art%"));
     }
 }
