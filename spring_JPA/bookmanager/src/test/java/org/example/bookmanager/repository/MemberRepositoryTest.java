@@ -5,10 +5,7 @@ import org.example.bookmanager.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -110,7 +107,7 @@ class MemberRepositoryTest {
 
     @Test
     void select(){
-        System.out.println(memberRepository.findByName("martin"));
+//        System.out.println(memberRepository.findByName("martin"));
 
 
 //        System.out.println("findByEmail : " + memberRepository.findByEmail("martin@naver.com"));
@@ -134,6 +131,17 @@ class MemberRepositoryTest {
 //        System.out.println("findByNameContaining :" + memberRepository.findByNameContaining("mart"));
 //        System.out.println("findByNameEndingWith" + memberRepository.findByNameEndingWith("mart"));
 
-        System.out.println("findByNameLike : "+ memberRepository.findByNameLike("%art%"));
+//        System.out.println("findByNameLike : "+ memberRepository.findByNameLike("%art%"));
+    }
+    @Test
+    void pagingAndSortingTest(){
+        System.out.println("finalTop1ByName" + memberRepository.findTop1ByName("martin"));
+        System.out.println("findLast1ByName" + memberRepository.findTop1ByNameOrderByIdDesc("martin"));
+        System.out.println("findFirstByName" + memberRepository.findFirstByNameOrderByIdDesc("martin"));
+        System.out.println("findFirstByNameWirthSortParams :" + memberRepository.findFirstByName("martin",
+                Sort.by(Sort.Order.desc("Id"), Sort.Order.asc("email"))));
+
+        System.out.println("findByNameWithPaging : "+ memberRepository.findByName("martin",
+                PageRequest.of(0,1,Sort.by(Sort.Order.desc("Id")))).getContent());
     }
 }
