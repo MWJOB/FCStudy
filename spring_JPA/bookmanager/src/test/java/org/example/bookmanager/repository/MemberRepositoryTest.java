@@ -2,6 +2,7 @@ package org.example.bookmanager.repository;
 
 import org.assertj.core.util.Lists;
 import org.example.bookmanager.domain.Member;
+import org.example.bookmanager.domain.MemberHistory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,9 @@ class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private MemberHistoryRepository memberHistoryRepository;
+
     @Test
     void crud() {
 
@@ -31,8 +35,6 @@ class MemberRepositoryTest {
         Member member = Member.builder()
                 .name("존 도우")
                 .email("john@naver.com")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
                 .build();
 
         Member savedMember = memberRepository.save(member);
@@ -49,8 +51,6 @@ class MemberRepositoryTest {
         Member member = Member.builder()
                 .name("존 도우")
                 .email("john@naver.com")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
                 .build();
 
         memberRepository.saveAndFlush(member);
@@ -143,5 +143,60 @@ class MemberRepositoryTest {
 
         System.out.println("findByNameWithPaging : "+ memberRepository.findByName("martin",
                 PageRequest.of(0,1,Sort.by(Sort.Order.desc("Id")))).getContent());
+    }
+
+    @Test
+    void insertAndUpdateTest(){
+        Member member = new Member();
+        member.setName("martin");
+        member.setEmail("martin@naver.com");
+
+        memberRepository.save(member);
+
+        Member member1 = memberRepository.findById(1L).orElseThrow(RuntimeException::new);
+        member1.setName("marrrrrtin");
+
+        memberRepository.save(member1);
+    }
+
+    @Test
+    void listenerTest(){
+        Member member = new Member();
+        member.setEmail("martin2@naver.com");
+        member.setName("martin");
+
+        memberRepository.save(member);
+
+        Member member1 = memberRepository.findById(1L).orElseThrow(RuntimeException::new);
+        member1.setName("martin2");
+
+        memberRepository.deleteById(4L);
+    }
+
+    @Test
+    void preUpdateTest(){
+        Member member = memberRepository.findById(1L).orElseThrow(RuntimeException::new);
+
+        System.out.println("as is" + member);
+
+        member.setName("martin22");
+        memberRepository.save(member);
+
+        System.out.println("to be" + memberRepository.findAll().get(0));
+    }
+
+    @Test
+    void memberHistoryTest(){
+        Member member = new Member();
+        member.setEmail("martin2@naver.com");
+        member.setName("martin-new22");
+
+        memberRepository.save(member);
+
+        member.setName("martin-new33");
+
+        memberRepository.save(member);
+
+        memberHistoryRepository.findAll().forEach(System.out::println);
     }
 }
