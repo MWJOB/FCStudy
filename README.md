@@ -24,3 +24,8 @@
 12. Swagger 실습
    - 스프링부트 3.0 부터는 Springfox를 지원하지 않고 springdoc을 사용하면 좋다.
 13. 네이버 api를 이용한 controller service dto 구현 및 테스트 실습
+14. Spring Data Jpa 기능 실습
+   - Repository interface 계층, 메소드
+   - QueryMethod
+   - Entity 기본 속성 (annotation)
+   - Listener
