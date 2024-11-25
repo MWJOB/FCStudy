@@ -1,9 +1,10 @@
-package org.example.bookmanager.domain;
+package org.example.bookmanager.domain.listener;
 
 import jakarta.persistence.PreUpdate;
+import org.example.bookmanager.domain.Member;
+import org.example.bookmanager.domain.MemberHistory;
 import org.example.bookmanager.repository.MemberHistoryRepository;
 import org.example.bookmanager.support.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component

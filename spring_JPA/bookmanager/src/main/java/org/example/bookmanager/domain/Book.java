@@ -2,43 +2,26 @@ package org.example.bookmanager.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Getter
-@Setter
-//@EntityListeners(value = AuditingEntityListener.class)
-public class Book extends BaseEntity implements Auditable{
+public class Book extends BaseEntity{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    private String author;
+    private String category;
 
-//    @CreatedDate
-//    private LocalDateTime createdAt;
-//
-//    @LastModifiedDate
-//    private LocalDateTime updatedAt;
+    private Long authorId;
 
-//    @PrePersist
-//    public void prePersist() {
-//        this.createdAt = LocalDateTime.now();
-//        this.updatedAt = LocalDateTime.now();
-//    }
-//
-//    @PreUpdate
-//    public void preUpdate() {
-//        this.updatedAt = LocalDateTime.now();
-//    }
+    private Long publisherId;
+
+    @OneToOne(mappedBy = "book")
+    @ToString.Exclude
+    private BookReviewInfo bookReviewInfo;
 }

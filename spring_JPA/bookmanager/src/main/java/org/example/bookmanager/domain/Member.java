@@ -3,6 +3,7 @@ package org.example.bookmanager.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.bookmanager.domain.listener.MemberEntityListener;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import lombok.*;
 @Builder
 @Entity
 @EntityListeners(value = {MemberEntityListener.class})
-public class Member extends BaseEntity implements Auditable{
+public class Member extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

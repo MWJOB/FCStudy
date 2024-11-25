@@ -1,7 +1,8 @@
-package org.example.bookmanager.domain;
+package org.example.bookmanager.domain.listener;
 
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import org.example.bookmanager.domain.Auditable;
 
 import java.time.LocalDateTime;
 
