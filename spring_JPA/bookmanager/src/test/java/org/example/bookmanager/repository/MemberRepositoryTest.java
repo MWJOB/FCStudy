@@ -1,6 +1,7 @@
 package org.example.bookmanager.repository;
 
 import org.assertj.core.util.Lists;
+import org.example.bookmanager.domain.Gender;
 import org.example.bookmanager.domain.Member;
 import org.example.bookmanager.domain.MemberHistory;
 import org.junit.jupiter.api.Test;
@@ -106,34 +107,6 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void select(){
-//        System.out.println(memberRepository.findByName("martin"));
-
-
-//        System.out.println("findByEmail : " + memberRepository.findByEmail("martin@naver.com"));
-//        System.out.println("findByEmail : " + memberRepository.getByEmail("martin@naver.com"));
-//        System.out.println("findByEmail : " + memberRepository.readByEmail("martin@naver.com"));
-//        System.out.println("findByEmail : " + memberRepository.queryByEmail("martin@naver.com"));
-//        System.out.println("findByEmail : " + memberRepository.searchByEmail("martin@naver.com"));
-//        System.out.println("findByEmail : " + memberRepository.streamByEmail("martin@naver.com"));
-//        System.out.println("findByEmail : " + memberRepository.findMemberByEmail("martin@naver.com"));
-//
-//        System.out.println("findTop1ByName : " + memberRepository.findTopByName("martin"));
-//        System.out.println("findFirst1ByName : " + memberRepository.findFirstByName("martin"));
-//        System.out.println("findByEmailAndName :" + memberRepository.findByEmailAndName("martin", "martin"));
-//        System.out.println("findByIdAfter :" + memberRepository.findByIdAfter(4L));
-//        System.out.println("findByCreatedAtGreaterThan : " + memberRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)));
-//        System.out.println("findByCreatedAtGreaterTanEqual " + memberRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
-//        System.out.println("findByIdIsNotNull : "+ memberRepository.findByIdIsNotNull());
-//        System.out.println("findByIdIsNotEmpty : "+ memberRepository.findByIdIsNotEmpty());
-//        System.out.println("findByNameIn : " + memberRepository.findByNameIn(Lists.newArrayList("martin", "denis")));
-//        System.out.println("findByNameStartingWith :" + memberRepository.findByNameStartingWith("mart"));
-//        System.out.println("findByNameContaining :" + memberRepository.findByNameContaining("mart"));
-//        System.out.println("findByNameEndingWith" + memberRepository.findByNameEndingWith("mart"));
-
-//        System.out.println("findByNameLike : "+ memberRepository.findByNameLike("%art%"));
-    }
-    @Test
     void pagingAndSortingTest(){
         System.out.println("finalTop1ByName" + memberRepository.findTop1ByName("martin"));
         System.out.println("findLast1ByName" + memberRepository.findTop1ByNameOrderByIdDesc("martin"));
@@ -198,5 +171,29 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         memberHistoryRepository.findAll().forEach(System.out::println);
+    }
+
+    @Test
+    void userRelationTest(){
+        Member member = new Member();
+        member.setName("david");
+        member.setEmail("david@naver.com");
+        member.setGender(Gender.MALE);
+
+        memberRepository.save(member);
+
+        member.setName("daniel");
+        memberRepository.save(member);
+
+        member.setEmail("daniel@naver.com");
+        memberRepository.save(member);
+
+        memberHistoryRepository.findAll().forEach(System.out::println);
+
+//        List<MemberHistory> result = memberHistoryRepository.findByMemberId(
+//                memberRepository.findByEmail("daniel@naver.com").getId());
+
+        List<MemberHistory> result = memberRepository.findByEmail("daniel@naver.com").getMemberHistories();
+        result.forEach(System.out::println);
     }
 }

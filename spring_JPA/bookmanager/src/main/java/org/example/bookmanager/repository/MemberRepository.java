@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 //    Optional<Member> findByName(String name);
@@ -22,6 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findMemberByEmail(String email);
 
     List<Member> findFirstByName(String name);
+
     List<Member> findTopByName(String name);
 
     List<Member> findByEmailAndName(String email, String name);
