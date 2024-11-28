@@ -1,6 +1,7 @@
 package org.example.bookmanager.domain;
 
 import jakarta.persistence.*;
+import jdk.jfr.Enabled;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,20 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class MemberHistory extends BaseEntity{
+public class Review extends BaseEntity{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
 
-    private String email;
+    private String content;
+
+    private float score;
 
     @ManyToOne
-    @ToString.Exclude
     private Member member;
+
+    @ManyToOne
+    private Book book;
 }

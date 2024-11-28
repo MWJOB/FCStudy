@@ -6,21 +6,22 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class MemberHistory extends BaseEntity{
+public class Publisher extends BaseEntity{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    private String email;
-
-    @ManyToOne
-    @ToString.Exclude
-    private Member member;
+    @OneToMany
+    @JoinColumn(name = "publisher_id")
+    private List<Book> books = new ArrayList<>();
 }

@@ -30,4 +30,10 @@ public class Member extends BaseEntity{
     @OneToMany(fetch = FetchType.EAGER)
     @Builder.Default
     private List<MemberHistory> memberHistories = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "member_id")
+    @ToString.Exclude
+    private List<Review> reviews = new ArrayList<>();
+
 }

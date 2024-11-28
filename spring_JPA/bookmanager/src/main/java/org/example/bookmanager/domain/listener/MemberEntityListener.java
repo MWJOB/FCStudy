@@ -21,7 +21,6 @@ public class MemberEntityListener {
         //유저 엔티티가 생성, 수정됐을때 유저 히스토리에 동일한 데이터가 쌓이게 된다.
         Member member = (Member) entity;
         MemberHistory memberHistory = new MemberHistory();
-        memberHistory.setMemberId(member.getId());
         memberHistory.setName(member.getName());
         memberHistory.setEmail(member.getEmail());
 
