@@ -39,7 +39,7 @@ class BookRepositoryTest {
     void bookRelationTest(){
         givenBookAndReview();
 
-        Member member = memberRepository.findByEmail("martin@naver.com");
+        Member member = givenMember();
 
         System.out.println("Review : " + member.getReviews());
         System.out.println("Book : " + member.getReviews().get(0).getBook());

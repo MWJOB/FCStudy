@@ -1,5 +1,6 @@
 package org.example.bookmanager.repository;
 
+import jakarta.transaction.Transactional;
 import org.assertj.core.util.Lists;
 import org.example.bookmanager.domain.Gender;
 import org.example.bookmanager.domain.Member;
@@ -16,6 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
