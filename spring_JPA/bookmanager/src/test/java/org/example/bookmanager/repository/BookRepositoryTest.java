@@ -78,4 +78,32 @@ class BookRepositoryTest {
         publisher.setName("이문복");
         return publisherRepository.save(publisher);
     }
+
+    //영속성 전이 테스트
+    @Test
+    void bookCasCadeTest(){
+        Book book = new Book();
+        book.setName("JPA 테스트");
+
+//        bookRepository.save(book);
+
+        Publisher publisher = new Publisher();
+        publisher.setName("FASTC");
+
+//        publisherRepository.save(publisher);
+
+        book.setPublisher(publisher);
+        bookRepository.save(book);
+
+//        publisher.addBook(book);
+//        publisherRepository.save(publisher);
+
+        System.out.println("books : " + bookRepository.findAll());
+        System.out.println("publishers : " + publisherRepository.findAll());
+
+        Book book1 = bookRepository.findById(1L).get();
+        book1.getPublisher().setName("SlowC");
+        bookRepository.save(book1);
+        System.out.println("Publisher : " + publisherRepository.findAll());
+    }
 }
