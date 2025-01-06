@@ -106,4 +106,15 @@ class BookRepositoryTest {
         bookRepository.save(book1);
         System.out.println("Publisher : " + publisherRepository.findAll());
     }
+
+    @Test
+    void queryTest(){
+
+    }
+
+    @Test
+    void nativeQueryTest(){
+        bookRepository.findAll().forEach(System.out::println);
+        bookRepository.findAllCustom().forEach(System.out::println);
+    }
 }
