@@ -8,6 +8,8 @@ import org.example.bookmanager.repository.AuthorRepository;
 import org.example.bookmanager.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class BookService {
@@ -37,5 +39,12 @@ public class BookService {
         System.out.println(">>>" + bookRepository.findAll());
 
 
+    }
+
+    @Transactional
+    public List<Book> getAllBooks(){
+        List<Book> books = bookRepository.findAll();
+        books.forEach(System.out::println);
+        return books;
     }
 }

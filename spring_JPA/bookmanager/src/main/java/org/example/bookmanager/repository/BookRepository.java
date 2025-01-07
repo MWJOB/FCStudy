@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 public interface BookRepository extends JpaRepository<Book, Long> {
@@ -31,4 +31,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query(value = "select * from book", nativeQuery = true)
     List<Book> findAllCustom();
+
+    @Query(value = "select * from book order by id decc limit 1", nativeQuery = true)
+    Map<String, Object> findRawRecord();
 }

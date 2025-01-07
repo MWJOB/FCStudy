@@ -38,4 +38,9 @@ class BookServiceTest {
         System.out.println("books :" + bookRepository.findAll());
     }
 
+    @Test
+    void converterErrorTest(){
+        bookService.getAllBooks();
+        bookRepository.findAll().forEach(System.out::println);
+    }
 }

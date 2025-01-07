@@ -2,6 +2,7 @@ package org.example.bookmanager.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.bookmanager.repository.dto.BookStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,9 @@ public class Book extends BaseEntity{
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
     private Publisher publisher;
+
+    @Convert
+    private BookStatus status; //판매상태
 
 //    @ManyToMany
     @OneToMany
