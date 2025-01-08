@@ -23,6 +23,9 @@ public class MemberEntityListener {
         MemberHistory memberHistory = new MemberHistory();
         memberHistory.setName(member.getName());
         memberHistory.setEmail(member.getEmail());
+        memberHistory.setMember(member);
+        memberHistory.setHomeAddress(member.getHomeAddress());
+        memberHistory.setCompanyAddress(member.getCompanyAddress());
 
         memberHistoryRepository.save(memberHistory);
     }

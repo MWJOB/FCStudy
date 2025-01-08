@@ -20,6 +20,15 @@ public class MemberHistory extends BaseEntity{
 
     private String email;
 
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    private Address companyAddress;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     @ManyToOne
     @ToString.Exclude
     private Member member;

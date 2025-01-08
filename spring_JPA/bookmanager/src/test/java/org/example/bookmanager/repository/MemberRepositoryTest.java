@@ -198,4 +198,9 @@ class MemberRepositoryTest {
         List<MemberHistory> result = memberRepository.findByEmail("daniel@naver.com").getMemberHistories();
         result.forEach(System.out::println);
     }
+
+    @Test
+    void embedTest(){
+        memberRepository.findAll().forEach(System.out::println);
+    }
 }
