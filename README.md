@@ -1,4 +1,4 @@
-<span style="font-size: 32px;">Spring Jpa</span>
+## Spring Jpa
 
 1. aop 실습
    - aop는 비즈니스 로직에 적용되는 반복적이고 횡단 형태로 들어가 있는 것들을 다 꺼내서 AOP에 작성하면 좋다.
