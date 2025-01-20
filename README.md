@@ -1,4 +1,4 @@
-<span style="font-size: 32px; color: green">Spring JPA</span>
+<span style="font-size: 32px;">Spring Jpa</span>
 
 1. aop 실습
    - aop는 비즈니스 로직에 적용되는 반복적이고 횡단 형태로 들어가 있는 것들을 다 꺼내서 AOP에 작성하면 좋다.
@@ -35,6 +35,6 @@
 15. 영속성 컨텍스트 실습
 
 
-<span style="font-size: 32px; color: green">Spring Security</span>
+<span style="font-size: 32px;">Spring Security</span>
 
 1. 멀티 모듈 프로젝트 구성
