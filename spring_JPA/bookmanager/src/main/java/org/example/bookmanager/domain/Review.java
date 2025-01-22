@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Data
@@ -23,9 +25,15 @@ public class Review extends BaseEntity{
 
     private float score;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Book book;
+
+    @OneToMany
+    @JoinColumn(name = "review_id")
+    private List<Review> comments;
 }
