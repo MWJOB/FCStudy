@@ -1,3 +1,5 @@
+## Spring Jpa
+
 1. aop 실습
    - aop는 비즈니스 로직에 적용되는 반복적이고 횡단 형태로 들어가 있는 것들을 다 꺼내서 AOP에 작성하면 좋다.
   
@@ -29,3 +31,13 @@
    - QueryMethod
    - Entity 기본 속성 (annotation)
    - Listener
+15. @Query- 커스텀 쿼리 실습
+15. 영속성 컨텍스트 실습
+
+
+
+
+
+## Spring Security
+
+1. 멀티 모듈 프로젝트 구성
