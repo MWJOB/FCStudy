@@ -1,16 +1,17 @@
 package com.sp.fc.web.config;
 
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import org.springframework.security.config.Customizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -19,6 +20,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 public class SecurityConfig {
+
+
+    private final CustomAuthDetails customAuthDetails;
+
+    public SecurityConfig(CustomAuthDetails customAuthDetails) {
+        this.customAuthDetails = customAuthDetails;
+    }
+
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
@@ -31,46 +40,34 @@ public class SecurityConfig {
 
         UserDetails user3 = User
                 .withUsername("user3")
-                .password("{noop}2222")
+                .password(passwordEncoder().encode("2222"))
                 .roles("ADMIN")
                 .build();
 
         return new InMemoryUserDetailsManager(user2, user3);
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(auth -> auth
-//                        // "/" 경로만 인증 요구
-//                        .requestMatchers("/").authenticated()
-//                        // 그 외의 경로들은 일단 모두 허용
-//                        .anyRequest().permitAll()
-//                )
-//                // 인증 필요 경로에 접근 시 스프링 시큐리티 기본 로그인 폼으로 이동
-//                .formLogin(Customizer.withDefaults())
-//                // 테스트용 CSRF 비활성화 (필요 시 활성화)
-//                .csrf(csrf -> csrf.disable());
-//
-//        return http.build();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // (1) "/"만 누구나 접근 가능
-                        .requestMatchers("/").permitAll()
-                        // (2) 나머지 요청은 인증 필요
+                        // 루트와 오류 페이지는 모두에게 공개. /login은 매핑하지 않아 기본 로그인 페이지가 생성됨.
+                        .requestMatchers("/", "/error","/index").permitAll()
                         .anyRequest().authenticated()
                 )
-                // 인증이 필요한 경로 접근 시 기본 로그인 폼으로 이동
-                .formLogin(Customizer.withDefaults())
-
-                // 테스트 편의를 위해 CSRF 비활성화(실서비스는 활성화 권장)
+                // 기본 로그인 페이지 사용. .loginPage()를 호출하지 않으므로 Spring Security가 기본 로그인 페이지를 생성합니다.
+                .formLogin(form -> form.defaultSuccessUrl("/", false)
+                        .authenticationDetailsSource(customAuthDetails))
+                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
+                // 테스트를 위해 CSRF 보호 비활성화 (실서비스에서는 활성화 권장)
                 .csrf(csrf -> csrf.disable());
 
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
