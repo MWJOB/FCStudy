@@ -18,8 +18,16 @@
             <button class="btn dummy-btn">로그인 에러</button>
             <button class="btn dummy-btn">접근 에러</button>
             <button class="btn dummy-btn">유저 페이지</button>
-            <!-- 관리자 페이지 버튼: 오직 ROLE_ADMIN인 경우에만 보임 -->
+
+            <!-- 학생 페이지 버튼: ROLE_STUDENT 권한이 있는 경우 보이도록 설정 -->
+            <a th:href="@{/student/main}" class="btn" sec:authorize="hasRole('STUDENT')">학생 페이지</a>
+
+            <!-- 학생 페이지 버튼: ROLE_STUDENT 권한이 있는 경우 보이도록 설정 -->
+            <a th:href="@{/teacher/main}" class="btn" sec:authorize="hasRole('TEACHER')">선생님 페이지</a>
+
+            <!-- 관리자 페이지 버튼 -->
             <a th:href="@{/admin}" class="btn" sec:authorize="hasRole('ADMIN')">관리자 페이지</a>
+
             <form th:action="@{/logout}" method="post" style="display: inline;">
                 <button type="submit" class="btn">로그 아웃</button>
             </form>

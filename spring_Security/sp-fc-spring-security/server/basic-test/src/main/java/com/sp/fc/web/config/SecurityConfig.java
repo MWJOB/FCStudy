@@ -1,77 +1,82 @@
 package com.sp.fc.web.config;
 
-
+import com.sp.fc.web.student.StudentManager;
+import com.sp.fc.web.teacher.TeacherManager;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final PasswordEncoder passwordEncoder;
 
-    private final CustomAuthDetails customAuthDetails;
-
-    public SecurityConfig(CustomAuthDetails customAuthDetails) {
-        this.customAuthDetails = customAuthDetails;
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
+
+    @Bean
+    public AuthenticationManager authenticationManager(TeacherManager teacherManager, StudentManager studentManager) {
+        return new ProviderManager(List.of(teacherManager, studentManager)); // ✅ 두 개의 Provider 등록
+    }
+
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager, TeacherManager teacherManager, StudentManager studentManager) throws Exception {
+    http
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/", "/login").permitAll()
+                    .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**").permitAll() // ✅ 정적 리소스 허용
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(new CustomLoginFilter(authenticationManager, teacherManager, studentManager), UsernamePasswordAuthenticationFilter.class) // ✅ TeacherManager 주입
+            .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // ✅ 필요 시 세션 관리 설정
+            )
+            .formLogin(form -> form
+                    .loginPage("/login")
+                    .loginProcessingUrl("/process-login")
+                    .defaultSuccessUrl("/", true)
+                    .permitAll()
+            )
+            .csrf(csrf -> csrf.disable());
+
+    return http.build();
+}
+
 
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        // 테스트용 사용자 2명
-        UserDetails user2 = User
-                .withUsername("user2")
-                .password(passwordEncoder().encode("1111"))
-                .roles("USER")
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withUsername("student")
+                .password(passwordEncoder.encode("1234"))
+                .roles("STUDENT")
                 .build();
 
-        UserDetails user3 = User
-                .withUsername("user3")
-                .password(passwordEncoder().encode("2222"))
-                .roles("ADMIN")
+        UserDetails teacher = User.withUsername("teacher")
+                .password(passwordEncoder.encode("1234"))
+                .roles("TEACHER")
                 .build();
 
-        return new InMemoryUserDetailsManager(user2, user3);
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        // 루트와 오류 페이지는 모두에게 공개. /login은 매핑하지 않아 기본 로그인 페이지가 생성됨.
-                        .requestMatchers("/", "/error","/index").permitAll()
-                        .anyRequest().authenticated()
-                )
-                // 기본 로그인 페이지 사용. .loginPage()를 호출하지 않으므로 Spring Security가 기본 로그인 페이지를 생성합니다.
-                .formLogin(form -> form.defaultSuccessUrl("/", false)
-                        .authenticationDetailsSource(customAuthDetails))
-                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
-                // 테스트를 위해 CSRF 보호 비활성화 (실서비스에서는 활성화 권장)
-                .csrf(csrf -> csrf.disable());
-
-        return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new InMemoryUserDetailsManager(user, teacher);
     }
 }
+
